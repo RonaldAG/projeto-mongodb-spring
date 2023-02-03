@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.ronaldgarcia.workshopmongo.domain.User;
@@ -32,5 +34,10 @@ public class UserService {
 	
 	public User fromDTO(UserDTO obj) {
 		return new User(obj.getId(), obj.getName(), obj.getEmail());
+	}
+	
+	public void delete(String id) {
+		findById(id);
+		repository.deleteById(id);
 	}
 }
