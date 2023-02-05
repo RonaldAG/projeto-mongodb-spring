@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.ronaldgarcia.workshopmongo.domain.Post;
 import com.ronaldgarcia.workshopmongo.domain.User;
 import com.ronaldgarcia.workshopmongo.dto.UserDTO;
 import com.ronaldgarcia.workshopmongo.repositories.UserRepository;
+import com.ronaldgarcia.workshopmongo.services.exception.EmptyPostsException;
 import com.ronaldgarcia.workshopmongo.services.exception.ObjectNotFoundException;
 
 @Service
@@ -50,5 +50,13 @@ public class UserService {
 	public void updateData(User obj1, User obj2) {
 		obj1.setName(obj2.getName());
 		obj1.setEmail(obj2.getEmail());
+	}
+	
+	public List<Post> findPosts(String id){
+		List<Post> posts = findById(id).getPosts();
+		if(posts.isEmpty()) {
+			throw new EmptyPostsException("O usuário não possui postagens");
+		}
+		return posts;
 	}
 }
