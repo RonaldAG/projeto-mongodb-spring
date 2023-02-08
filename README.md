@@ -33,7 +33,7 @@ Quando um documento aponta para outro, não carregando as suas informações, ap
 Documento aninhado ocorre quando o primeiro possui uma cópia dos dados de seu relacionado. Isso não necessita de sintaxe, sendo executado por padrão toda vez que há um relacionamento entre documentos. Basta apenas incluir tal classe dentro de outra. 
 
 ### Query Methods
-São os métodos presentes dentro da interface que implementa o MomgoRepository. Podemos consultar algumas implementações já estipuladas na documentação do MongoDB, como a utilizada no seguinte código:
+São os métodos presentes dentro da interface que implementa o [MongoRepository](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/repositories/PostRepository.java). Podemos consultar algumas implementações já estipuladas na documentação do MongoDB, como a utilizada no seguinte código:
 ```
     List<Post> findByTitleContainingIgnoreCase(String text); 
 ```
