@@ -1,7 +1,9 @@
 package com.ronaldgarcia.workshopmongo.config;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,6 +27,10 @@ public class Instantiation implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
@@ -37,15 +43,15 @@ public class Instantiation implements CommandLineRunner{
 		AuthorDTO mariaDto = new AuthorDTO(maria);
 		AuthorDTO alexDto = new AuthorDTO(alex);
 		
-		Post post1 = new Post(null, Instant.parse("2018-03-21T00:00:00Z"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", mariaDto);
-		Post post2 = new Post(null, Instant.parse("2018-03-23T00:00:00Z"), "Bom dia", "Acordei feliz hoje!", mariaDto);
+		Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", mariaDto);
+		Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje!", mariaDto);
 		
 	
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		
-		CommentDTO comment1 = new CommentDTO("Boa viagem mano!", Instant.parse("2018-03-21T00:00:00Z"), alexDto);
-		CommentDTO comment2 = new CommentDTO("Aproveite!", Instant.parse("2018-03-22T00:00:00Z"), new AuthorDTO(bob));
-		CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", Instant.parse("2018-03-23T00:00:00Z"), alexDto);
+		CommentDTO comment1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2018"), alexDto);
+		CommentDTO comment2 = new CommentDTO("Aproveite!", sdf.parse("22/03/2018"), new AuthorDTO(bob));
+		CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("23/03/2018"), alexDto);
 		
 		post1.getComments().addAll(Arrays.asList(comment1, comment2));
 		post2.getComments().add(comment3);

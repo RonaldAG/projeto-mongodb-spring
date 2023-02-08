@@ -1,18 +1,19 @@
 package com.ronaldgarcia.workshopmongo.dto;
 
 import java.time.Instant;
+import java.util.Date;
 
 public class CommentDTO {
 	
 	private String text;
-	private Instant date;
+	private Date date;
 	private AuthorDTO author;
 	
 	public CommentDTO() {
 		
 	}
 
-	public CommentDTO(String text, Instant date, AuthorDTO author) {
+	public CommentDTO(String text, Date date, AuthorDTO author) {
 		super();
 		this.text = text;
 		this.date = date;
@@ -27,11 +28,11 @@ public class CommentDTO {
 		this.text = text;
 	}
 
-	public Instant getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
