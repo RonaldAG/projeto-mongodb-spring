@@ -8,14 +8,57 @@ Criar uma aplicação Java que representa postagens. Essas postagens possuem um 
 Para construir essa aplicação, foi utilizado um banco de dados não relacional, pois este possui maior velocidade executando consultas simples e mapeamento mais simplório.
 O post está aninhado com os comentários e referenciado pelo autor.
 
+## Conceituação
+Para desenvolver essa solução, foi necessário ter alguns novos conceitos estruturados. Eles são: **DTO, documentos referenciados e aninhados, query methods, tratamento de exceções.**
+
+### DTO
+Consiste em abstrair da entidade apenas as informações para a query. 
+Dessa forma, cria-se uma nova classe apenas com os atributos que devem aparecer na requisição. Para que isso funcione, precisamos sobrescrever o construtor da nova classe de forma que receba a entidade como parâmetro. Observe abaixo uma das [DTO's implementadas.](https://github.com/RonaldAG/projeto-mongodb-spring/tree/main/src/main/java/com/ronaldgarcia/workshopmongo/dto)
+```
+public AuthorDTO(User obj) {
+		id = obj.getId();
+		name = obj.getName();
+}
+```
+### Documentos aninhados x referenciados
+O mongoDB se trata de um banco de dados orientado a documentos. Dentro da organização desse banco, podemos relacionar os documentos por referência ou aninhando-os.
+
+#### Referencia
+Quando um documento aponta para outro, não carregando as suas informações, apenas referenciando para o ID do relacionamento. Isso é possível através da anotação @DBRef, que está presente no [seguinte documento.](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/domain/User.java)
+```	
+    @DBRef(lazy = true)
+    private List<Post> posts = new ArrayList<>();
+```
+
+### Query Methods
+São os métodos presentes dentro da interface que implementa o MomgoRepository. Podemos consultar algumas implementações já estipuladas na documentação do MongoDB, como a utilizada no seguinte código:
+```
+    List<Post> findByTitleContainingIgnoreCase(String text); 
+```
+Como também é possível **criar** query methods, utilizando a anotação `@query`, como podemos oberservar abaixo.
+```
+    @Query("{ title: { $regex: ?0, $options: 'i' } }")
+    List<Post> searchTitle(String text);
+```
+#### Documentação
+- Sintaxe pre-definida
+- Criar uma query personalizada  
+
+#### Aninhados
+Documento aninhado ocorre quando o primeiro possui uma cópia dos dados de seu relacionado. Isso não necessita de sintaxe, sendo executado por padrão toda vez que há um relacionamento entre documentos. Basta apenas incluir tal classe dentro de outra. 
+
+### Tratamento de Exceções
+#### Classe standard error
+Criar uma [classe](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/resources/exceptions/StandardError.java) que tenha todas as informações necessárias para imprimir .json
+
+#### Classe que controla as exceções
+Criar uma [classe de controle](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/resources/exceptions/ResourceExceptionHandler.java) que capta essas exceções lançadas e imprime o corpo pré-definido.
+
+
 ## Modelo conceitual
 No modelo a seguir, temos a representação UML dos documentos e relacionamentos dentro dessa aplicação.
 
 ![image](https://user-images.githubusercontent.com/84423626/213741009-fbcc8047-4ea7-464b-b34b-4719f36713a0.png)
-
-## Instâncias
-Abaixo, temos o diagrama que representa a relação de instanciação entre as classes. 
-
 
 ## Funcionalidades
 - Funcionalidade 1: GET dos usuários, posts por ID, titulo e por palavras.
@@ -44,7 +87,7 @@ Abaixo, temos o diagrama que representa a relação de instanciação entre as c
 
     http://localhost:8080/posts/searchbytitle?text={texto}
 
-Consulte os demais end points nas [classes de recursos de cada entidade.](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/resources/PostResource.java)
+Consulte os demais end points nas [classes de recursos de cada entidade.](https://github.com/RonaldAG/projeto-mongodb-spring/blob/main/src/main/java/com/ronaldgarcia/workshopmongo/resources)
     
 
 ## Tecnologias utilizadas
