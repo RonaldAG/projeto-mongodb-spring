@@ -29,6 +29,8 @@ Quando um documento aponta para outro, não carregando as suas informações, ap
     @DBRef(lazy = true)
     private List<Post> posts = new ArrayList<>();
 ```
+#### Aninhados
+Documento aninhado ocorre quando o primeiro possui uma cópia dos dados de seu relacionado. Isso não necessita de sintaxe, sendo executado por padrão toda vez que há um relacionamento entre documentos. Basta apenas incluir tal classe dentro de outra. 
 
 ### Query Methods
 São os métodos presentes dentro da interface que implementa o MomgoRepository. Podemos consultar algumas implementações já estipuladas na documentação do MongoDB, como a utilizada no seguinte código:
@@ -43,9 +45,6 @@ Como também é possível **criar** query methods, utilizando a anotação `@que
 #### Documentação
 - Sintaxe pre-definida
 - Criar uma query personalizada  
-
-#### Aninhados
-Documento aninhado ocorre quando o primeiro possui uma cópia dos dados de seu relacionado. Isso não necessita de sintaxe, sendo executado por padrão toda vez que há um relacionamento entre documentos. Basta apenas incluir tal classe dentro de outra. 
 
 ### Tratamento de Exceções
 #### Classe standard error
