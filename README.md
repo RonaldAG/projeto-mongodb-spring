@@ -57,7 +57,8 @@ Criar uma [classe de controle](https://github.com/RonaldAG/projeto-mongodb-sprin
 ## Modelo conceitual
 No modelo a seguir, temos a representação UML dos documentos e relacionamentos dentro dessa aplicação.
 
-![image](https://user-images.githubusercontent.com/84423626/213741009-fbcc8047-4ea7-464b-b34b-4719f36713a0.png)
+![image](https://user-images.githubusercontent.com/84423626/217807418-e0825ef0-a500-4025-8665-aa387d2b0115.png)
+
 
 ## Funcionalidades
 - Funcionalidade 1: GET dos usuários, posts por ID, titulo e por palavras.
